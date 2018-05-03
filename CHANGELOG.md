@@ -1,3 +1,10 @@
+## 0.2.0
+
+#### Fixes
+
+  - Fix #7 assoc a route name into a request
+
+
 ## 0.1.0
 
 #### New Features
