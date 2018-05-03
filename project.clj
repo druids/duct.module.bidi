@@ -1,4 +1,4 @@
-(defproject duct.module.bidi "0.1.0"
+(defproject duct.module.bidi "0.2.0"
   :description "Duct module and router for the Bidi routing library"
   :url "https://github.com/druids/duct.module.bidi"
   :license {:name "MIT License"
