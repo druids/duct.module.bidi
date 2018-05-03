@@ -16,3 +16,55 @@ To install, add the following to you project `:dependencies`:
 ```clojure
 [duct.module.bidi "0.1.0"]
 ```
+
+
+Usage
+-----
+
+To add this module to your configuration, add the `:duct.module/bidi` key. For example:
+
+```clojure
+{:duct.core/project-ns foo
+ :duct.module/bidi {"/" [:index]}
+ :foo.handler/index {}}
+```
+
+And `foo/handler/index.clj` may looks like:
+
+```clojure
+(ns foo.handler.index
+  (:require
+    [integrant.core :as ig]))
+
+(defmethod ig/init-key :foo.handler/index
+  [_ options]
+  (fn [route] ;; route will be :index
+    (fn [request]
+      {:status 200, :body "Index page", :headers {"Content-Type" "text/html"}})))
+```
+
+Routes can grouped into one handler:
+
+```clojure
+{:duct.core/project-ns foo
+ :duct.module/bidi ["" {"/" :index
+                        "/api/users" {"" :api/users-list
+                                      ["/" :id] :api/users-detail}}]
+ :foo.handler/index {}
+ :foo.handler/api {}}
+```
+
+And `foo/handler/api.clj` may looks like:
+
+```clojure
+(ns foo.handler.api
+  (:require
+    [integrant.core :as ig]))
+
+(defmethod ig/init-key :foo.handler/api
+  [_ options]
+  (fn [route]
+    (case route
+      :api/users-list (fn [request] {:status 200, :body []})
+      :api/users-detail (fn [request] {:status 200, :body {:id 1, ...
+```
