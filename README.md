@@ -38,10 +38,11 @@ And `foo/handler/index.clj` may looks like:
 
 (defmethod ig/init-key :foo.handler/index
   [_ options]
-  (fn [route] ;; route will be :index
-    (fn [request]
-      {:status 200, :body "Index page", :headers {"Content-Type" "text/html"}})))
+  (fn [request] ;; :bidi-route will be :index
+    {:status 200, :body "Index page", :headers {"Content-Type" "text/html"}})))
 ```
+
+A route name is in a request under `:bidi-route` key.
 
 Routes can grouped into one handler:
 
@@ -63,8 +64,8 @@ And `foo/handler/api.clj` may looks like:
 
 (defmethod ig/init-key :foo.handler/api
   [_ options]
-  (fn [route]
-    (case route
-      :api/users-list (fn [request] {:status 200, :body []})
-      :api/users-detail (fn [request] {:status 200, :body {:id 1, ...
+  (fn [request]
+    (case (:bidi-route request)
+      :api/users-list {:status 200, :body []})
+      :api/users-detail {:status 200, :body {:id 1, ...
 ```
