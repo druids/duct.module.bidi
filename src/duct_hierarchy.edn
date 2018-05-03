@@ -1,0 +1,2 @@
+{:duct.router/bidi [:duct/router]
+ :duct.module/bidi [:duct/module]}
