@@ -8,4 +8,6 @@
   [_ {:keys [routes handlers]}]
   (bidi/make-handler routes
                      (fn [route-name]
-                       (get handlers route-name))))
+                       (when-let [handler (get handlers route-name)]
+                         (fn [request]
+                           (handler (assoc request :bidi-route route-name)))))))

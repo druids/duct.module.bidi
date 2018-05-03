@@ -7,6 +7,7 @@
 
 (defn hello-handler
   [request]
+  (is (= :hello (:bidi-route request)))
   {:status 200, :headers {}, :body (str "Hello " (-> request :params :name))})
 
 
