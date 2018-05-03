@@ -5,8 +5,8 @@
             :url "http://opensource.org/licenses/MIT"}
 
   :dependencies [[bidi "2.1.3"]
-                 [duct/core "0.6.0"]
-                 [integrant "0.6.1"]]
+                 [duct/core "0.6.2"]
+                 [integrant "0.6.3"]]
 
   :profiles {:dev {:plugins [[lein-cloverage "1.0.10"]
                              [lein-kibit "0.1.6"]
