@@ -1,3 +1,9 @@
+## 0.3.0
+
+#### New Features
+
+  - Allow merging routes from multiple components #9
+
 ## 0.2.0
 
 #### Fixes
