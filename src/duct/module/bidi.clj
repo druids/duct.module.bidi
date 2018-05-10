@@ -29,10 +29,14 @@
   [_ routes]
   {:req #{:duct.core/project-ns}
    :fn (fn [config]
-         (duct/merge-configs
-           config
-           {:duct.core/handler
-            {:router (ig/ref :duct.router/bidi)}
-            :duct.router/bidi
-            {:routes routes
-             :handlers (infer-handlers routes (:duct.core/project-ns config))}}))})
+         (let [flatten-routes ["" (reduce merge {} routes)]]
+           (duct/merge-configs
+             config
+             {:duct.core/handler
+              {:router (ig/ref :duct.router/bidi)}
+
+              :duct.router/routes flatten-routes
+
+              :duct.router/bidi
+              {:routes flatten-routes
+               :handlers (infer-handlers flatten-routes (:duct.core/project-ns config))}})))})
