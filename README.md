@@ -25,7 +25,7 @@ To add this module to your configuration, add the `:duct.module/bidi` key. For e
 
 ```clojure
 {:duct.core/project-ns foo
- :duct.module/bidi {"/" [:index]}
+ :duct.module/bidi [{"/index" :index}]
  :foo.handler/index {}}
 ```
 
@@ -48,9 +48,9 @@ Routes can grouped into one handler:
 
 ```clojure
 {:duct.core/project-ns foo
- :duct.module/bidi ["" {"/" :index
-                        "/api/users" {"" :api/users-list
-                                      ["/" :id] :api/users-detail}}]
+ :duct.module/bidi [{"/" :index
+                     "/api/users" {"" :api/users-list
+                                   ["/" :id] :api/users-detail}}]
  :foo.handler/index {}
  :foo.handler/api {}}
 ```
@@ -68,4 +68,35 @@ And `foo/handler/api.clj` may looks like:
     (case (:bidi-route request)
       :api/users-list {:status 200, :body []})
       :api/users-detail {:status 200, :body {:id 1, ...
+```
+
+Routes can be composed from multiple components:
+
+```clojure
+{:duct.core/project-ns foo
+ :foo/private-routes {"/private" {"/foo" :foo, "/bar" :bar}}
+ :foo/public-routes {"/public" {"/biz" :biz, "/baz" :baz}}
+ :duct.module/bidi [#ig/ref :foo/private-routes
+                    #ig/ref :foo/public-routes]}
+```
+This is useful e.g. for development only routes.
+
+When a server started you can find a route composition under `:duct.router/routes` key.
+
+E.g.
+
+```clojure
+(:duct.router/routes config)
+[""
+ {"/private" {"/foo" :foo, "/bar" :bar}}
+  "/public" {"/biz" :biz, "/baz" :baz}}]
+```
+
+Thus you can reverse routes (e.g. when sending an e-mail message) by calling
+
+```clojure
+(require '[bidi.bidi :as bidi])
+
+(bidi/route-for (:duct.router/routes config) :bar)
+;; "/private/bar"
 ```
