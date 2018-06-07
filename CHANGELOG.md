@@ -1,3 +1,10 @@
+## 0.4.0
+
+#### New Features
+
+  - Add route function for testing #11
+
+
 ## 0.3.0
 
 #### New Features
