@@ -100,3 +100,22 @@ Thus you can reverse routes (e.g. when sending an e-mail message) by calling
 (bidi/route-for (:duct.router/routes config) :bar)
 ;; "/private/bar"
 ```
+
+
+Testing
+-------
+
+For testing there is a function `route` that associates a matched route into a request, if a uri matches to any given
+ routes. Example:
+
+```clojure
+(require '[duct.routes.bidi-testing :as bidi])
+(require '[integrant.core :as ig])
+(require '[ring.mock.request :as mock])
+
+(let [routes ["" {"/hello" {:get :api/hello}}]
+      handler (ig/init-key :myapp.handler/api {})
+      response (handler (-> :get (mock/request "/hello") (bidi/route routes)))]]
+                                                          ^--- it sets `:api/hello` under `:bidi-route` key
+  ...)
+```
