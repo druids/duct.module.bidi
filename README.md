@@ -14,7 +14,7 @@ Leiningen/Boot
 To install, add the following to you project `:dependencies`:
 
 ```clojure
-[duct.module.bidi "0.4.0"]
+[duct.module.bidi "0.5.0"]
 ```
 
 

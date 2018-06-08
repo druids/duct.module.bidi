@@ -1,3 +1,10 @@
+## 0.5.0
+
+#### Fixes
+
+  - Function route updates :params in a request #13
+
+
 ## 0.4.0
 
 #### New Features
